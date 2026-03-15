@@ -1,0 +1,11 @@
+# Subject folders - not part of portfolio
+CSE 332/
+CSE 357/
+INT 312/
+INT 332/
+PES 319/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
