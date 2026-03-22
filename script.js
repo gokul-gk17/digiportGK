@@ -28,12 +28,12 @@ fadeEls.forEach(el => {
 
 // ── TYPING ANIMATION ─────────────────────────────────
 const phrases = [
-  "Data Science & ML Enthusiast 🤖",
-  "Python Developer 🐍",
-  "Data Analytics Engineer 📊",
-  "Power BI Dashboard Builder 📈",
-  "OCR & Computer Vision Explorer 👁️",
-  "Open to Internships 🚀",
+  "Data Science & ML Enthusiast",
+  "Python Developer",
+  "Data Analytics Engineer",
+  "Power BI Dashboard Builder",
+  "OCR & Computer Vision Explorer",
+  "Open to Internships",
 ];
 const typedEl = document.getElementById('typed-text');
 let pIdx = 0, cIdx = 0, deleting = false;
@@ -83,7 +83,9 @@ if (window.innerWidth >= 768) {
   // Particle colors — blue for dark bg, navy for light bg
   function getParticleColor(x, y) {
     const section = document.elementFromPoint(x, y)?.closest('section');
-    const isDark = section && darkSections.includes(section.id);
+    const isDarkTheme = document.body.getAttribute('data-theme') === 'dark';
+    const isDarkSection = section && darkSections.includes(section.id);
+    const isDark = isDarkTheme || isDarkSection;
     return isDark
       ? ['rgba(79,142,247,', 'rgba(168,197,250,', 'rgba(255,255,255,']
       : ['rgba(10,22,40,', 'rgba(79,142,247,', 'rgba(30,58,95,'];
@@ -149,6 +151,39 @@ if (window.innerWidth >= 768) {
     const count = Math.floor(Math.random() * 2) + 2;
     for (let i = 0; i < count; i++) {
       spawnParticle(e.clientX, e.clientY);
+    }
+  });
+}
+
+// ── THEME TOGGLE ──────────────────────────────────────
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+  const body = document.body;
+  const icon = themeToggle.querySelector('i');
+
+  // Check for saved theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.setAttribute('data-theme', 'dark');
+    icon.classList.remove('fa-moon');
+    icon.classList.add('fa-sun');
+  } else if (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    body.setAttribute('data-theme', 'dark');
+    icon.classList.remove('fa-moon');
+    icon.classList.add('fa-sun');
+  }
+
+  themeToggle.addEventListener('click', () => {
+    if (body.getAttribute('data-theme') === 'dark') {
+      body.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      icon.classList.remove('fa-sun');
+      icon.classList.add('fa-moon');
+    } else {
+      body.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      icon.classList.remove('fa-moon');
+      icon.classList.add('fa-sun');
     }
   });
 }
